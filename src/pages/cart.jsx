@@ -44,11 +44,53 @@ const Cart = () => {
                     </td>
 
                 </tr>
+                <tr>
+                    <td>
+                        <div className={styles.imgContainer}>
+                            <Image 
+                                src="/img/pizza.png" 
+                                layout='fill'
+                                objectFit='cover' 
+                                alt=""
+                             />
+                        </div>
+                    </td>
+                    <td>
+                        <span className={styles.name}> CORALZO</span>
+                    </td>
+                    <td>
+                        <span className={styles.extras}>
+                            Double ingredients, spicy sauce
+                        </span> 
+                    </td>
+                    <td>
+                        <span className={styles.price}>ksh1900</span>
+                    </td>
+                    <td>
+                        <span className={styles.quantity}>2</span>
+                    </td>
+                    <td>
+                        <span className={styles.total}>ksh3800</span>
+                    </td>
+
+                </tr>
             </table>
         </div>
         <div className={styles.right}>
-            
-        </div>
+            <div className={styles.wrapper}>
+                <h2 className={styles.title}>CART TOTAL</h2>
+                <div className={styles.totalText}>
+                    <b className={styles.totalTextTitle}>Subtotal: </b>ksh 7900               
+                </div>
+                <div className={styles.totalText}>
+                    <b className={styles.totalTextTitle}>Discount: </b> ksh 0.00              
+                </div>
+                <div className={styles.totalText}>
+                    <b className={styles.totalTextTitle}>Total: </b>ksh 7900                
+                 </div>
+                <button className={styles.button}> CHECKOUT NOW</button>
+                </div>
+            </div>
     </div>
   )
 }
