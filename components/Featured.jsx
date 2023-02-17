@@ -25,11 +25,11 @@ const Featured = () => {
 
         <Image src = '/img/arrowl.png' alt ="arrow left" width="200" height='200'/>
         </div>
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} style={{transform:`translateX(${-100*index})`}}>
                 {
                     images.map((img,i)=>(
                     <div className={styles.imgcontainer} key={i}>    
-                       <Image src = {img}  alt ="arrow left" fill objectFit='contain'/> 
+                       <Image src = {img}  alt ="arrow left" layout='fill'/> 
                     </div>
                 ))
             }
