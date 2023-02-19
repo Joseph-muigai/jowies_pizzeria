@@ -72,6 +72,14 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    color:#f8072b
+    color:#f8072b    
+}
+@media screen and (max-width:480px) {
+     .item:nth-child(2){
+        display: none;
+     }
+     .item:nth-child(1){
+        flex: 3;
+     }
     
 }
