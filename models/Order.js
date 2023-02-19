@@ -1,36 +1,34 @@
 import mongoose from "mongoose";
 
-const OrderSchema = new mongoose.Schema({
-    title:{
+const  OrderSchema = new mongoose.Schema({
+    customer:{
         type:String,
         required:true,
         maxlength: 60,
     },
-    desc:{
+    address:{
         type:String,
         required:true,
         maxlength: 256,
     },
-    img:{
-        type:String,
+    total:{
+        type:Number,
         required:true,
         
     },
-    prices:{
-        type:[Number],
-        required: true
+    status:{
+        type:Number,
+        default:0
     },
-    extraOPtions:{
-        type:[
-            {
-                text:{type:String,required:true},
-                price:{type:Number,required:true}
-            }
-        ]
-    }
+    
+    method:{
+        type:Number,
+        required:true
+    },
+
 
 },
 {timestamps:true}
 )
 
-export default mongoose.models.Order|| mongoose.model("Order", ProductSchema)
+export default mongoose.models.Order|| mongoose.model("Order", OrderSchema)
