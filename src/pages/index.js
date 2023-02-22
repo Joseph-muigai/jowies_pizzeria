@@ -4,12 +4,13 @@ import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import Featured from 'components/Featured'
 import Pizzalist from 'components/Pizzalist'
+import axios from 'axios'
 
 
 
 
 
-export default function Home() {
+export default function Home({pizzaList}) {
   
   return (
     <>  
@@ -21,8 +22,17 @@ export default function Home() {
       </Head>
       
       {/* <Featured/> */}
-      <Pizzalist/>
+      <Pizzalist pizzaList={pizzaList}/>
     
     </>
   )
+}
+
+export const getServerSideProps = async ()=>{
+  const res = await axios.get("http://localhost:3000/api/products")
+  return{
+    props:{  
+      pizzaList: res.data
+    }
+  }
 }
