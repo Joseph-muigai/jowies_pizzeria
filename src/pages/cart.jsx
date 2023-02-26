@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import styles from '../styles/Cart.module.css'
 import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
 
 
 import {
@@ -9,14 +10,28 @@ import {
     PayPalButtons,
     usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
+import { useRouter } from 'next/router';
+import { reset } from 'redux/cartSlice';
 
 const Cart = () => {
+    const cart = useSelector((state)=>state.cart)
     const [open, setOpen] = useState(false)
-    const amount = "2"
+    const amount = cart.total;
     const currency = "USD";
     const style = { layout: "vertical" };
     const dispatch = useDispatch()
-    const cart = useSelector((state)=>state.cart)
+    const router = useRouter()
+
+    const createOrder =async(data)=>{
+        try {
+           const res = await axios.post("http://localhost:3000/api/orders", data)
+           res.status ===201 && router.push('/orders/'+ res.data._id)
+           dispatch(reset())
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const ButtonWrapper = ({ currency, showSpinner }) => {
         // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
         // This is the main reason to wrap the PayPalButtons in a new component
@@ -59,7 +74,15 @@ const Cart = () => {
                     }}
                     onApprove={function (data, actions) {
                         return actions.order.capture().then(function (details) {
-                            console.log(details)
+                            console.log(details);
+                            const shipping = details.purchase_units[0].shipping;
+                            createOrder({
+                            customer:shipping.name.full_name,
+                            address: shipping.address.address_line_1,
+                            total:cart.total,
+                            method: 1,
+                        });
+
                         });
                     }}
                 />
@@ -70,6 +93,7 @@ const Cart = () => {
     <div className={styles.container}>
         <div className={styles.left}>
             <table className={styles.table}>
+                <tbody>
                 <tr className={styles.trTitle}>
                     <th>Product</th>
                     <th>Name</th>
@@ -78,6 +102,8 @@ const Cart = () => {
                     <th>Quantity</th>
                     <th>Total</th>
                 </tr>
+                </tbody>
+                <tbody>
                 {cart.products.map((product=>(
                      
                 
@@ -114,36 +140,8 @@ const Cart = () => {
 
                 </tr>
                 )))}
-                {/* <tr  className={styles.tr}>
-                    <td>
-                        <div className={styles.imgContainer}>
-                            <Image 
-                                src="/img/pizza.png" 
-                                layout='fill'
-                                objectFit='cover' 
-                                alt=""
-                             />
-                        </div>
-                    </td>
-                    <td>
-                        <span className={styles.name}> CORALZO</span>
-                    </td>
-                    <td>
-                        <span className={styles.extras}>
-                            
-                        </span> 
-                    </td>
-                    <td>
-                        <span className={styles.price}>ksh1900</span>
-                    </td>
-                    <td>
-                        <span className={styles.quantity}>2</span>
-                    </td>
-                    <td>
-                        <span className={styles.total}>ksh3800</span>
-                    </td>
-
-                </tr> */}
+                </tbody>
+                
             </table>
         </div>
         <div className={styles.right}>
