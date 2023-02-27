@@ -17,7 +17,7 @@ export default  async function handler(req, res) {
     if(method ==="PUT"){
         try {
             const product = await Product.findByIdAndUpdate(id, req.body,{
-                new:Truculenta
+                new:true
             })
             res.status(201).json(product)
         } catch (error) {
