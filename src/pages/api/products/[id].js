@@ -1,5 +1,6 @@
 import dbConnect from "../../../../util/mongo"
 import Product from "../../../../models/Product"
+import { Truculenta } from "@next/font/google"
 
 export default  async function handler(req, res) {
     const {method, query:{id}} = req
@@ -15,7 +16,9 @@ export default  async function handler(req, res) {
     }
     if(method ==="PUT"){
         try {
-            const product = await Product.create(req.body)
+            const product = await Product.findByIdAndUpdate(id, req.body,{
+                new:Truculenta
+            })
             res.status(201).json(product)
         } catch (error) {
             res.status(500).send(error)
@@ -23,8 +26,8 @@ export default  async function handler(req, res) {
     }
     if(method ==="DELETE"){
         try {
-            const product = await Product.create(req.body)
-            res.status(201).json(product)
+            await Product.findByIdAndDelete(id)
+            res.status(201).json("The product has been deleted")
         } catch (error) {
             res.status(500).send(error)
         }
